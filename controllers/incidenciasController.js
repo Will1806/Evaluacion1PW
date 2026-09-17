@@ -1,6 +1,6 @@
 const { esTextoValido, esPrioridadValida } = require('../utils/helpers');
 
-// "Base de datos en memoria
+// "Base de datos" en memoria
 const incidencias = [];
 let siguienteId = 1;
 

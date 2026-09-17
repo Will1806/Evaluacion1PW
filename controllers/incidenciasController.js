@@ -96,3 +96,16 @@ function cambiarEstadoIncidencia(req, res) {
 
     res.json(incidencia);
 }
+// 6. Eliminar incidencia
+function eliminarIncidencia(req, res) {
+    const id = Number(req.params.id);
+    const indice = incidencias.findIndex((incidencia) => incidencia.id === id);
+
+    if (indice === -1) {
+        return res.status(404).json({ mensaje: 'Incidencia no encontrada' });
+    }
+
+    incidencias.splice(indice, 1);
+
+    res.json({ mensaje: 'Incidencia eliminada correctamente' });
+}

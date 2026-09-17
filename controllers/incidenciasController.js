@@ -57,13 +57,6 @@ function obtenerIncidenciaPorId(req, res) {
     res.json(incidencia);
 }
 
-module.exports = {
-    crearIncidencia,
-    listarIncidencias,
-    obtenerIncidenciaPorId,
-    incidencias
-};
-
 // 5. Cambiar estado de incidencia (obligatorio usar switch)
 function cambiarEstadoIncidencia(req, res) {
     const id = Number(req.params.id);
@@ -96,6 +89,7 @@ function cambiarEstadoIncidencia(req, res) {
 
     res.json(incidencia);
 }
+
 // 6. Eliminar incidencia
 function eliminarIncidencia(req, res) {
     const id = Number(req.params.id);
@@ -109,3 +103,23 @@ function eliminarIncidencia(req, res) {
 
     res.json({ mensaje: 'Incidencia eliminada correctamente' });
 }
+
+// 7. Endpoint de estadísticas (sin variables manuales, solo métodos de arreglo)
+function obtenerEstadisticas(req, res) {
+    res.json({
+        totalIncidencias: incidencias.length,
+        pendientes: incidencias.filter((incidencia) => incidencia.estado === 'Pendiente').length,
+        enProceso: incidencias.filter((incidencia) => incidencia.estado === 'En Proceso').length,
+        resueltas: incidencias.filter((incidencia) => incidencia.estado === 'Resuelta').length,
+        canceladas: incidencias.filter((incidencia) => incidencia.estado === 'Cancelada').length
+    });
+}
+
+module.exports = {
+    crearIncidencia,
+    listarIncidencias,
+    obtenerIncidenciaPorId,
+    cambiarEstadoIncidencia,
+    eliminarIncidencia,
+    obtenerEstadisticas
+};

@@ -63,3 +63,49 @@ module.exports = {
     obtenerIncidenciaPorId,
     incidencias
 };
+
+// 5. Cambiar estado de incidencia (obligatorio usar switch)
+function cambiarEstadoIncidencia(req, res) {
+    const id = Number(req.params.id);
+    const { estado } = req.body;
+
+    const incidencia = incidencias.find((incidencia) => incidencia.id === id);
+
+    if (!incidencia) {
+        return res.status(404).json({ mensaje: 'Incidencia no encontrada' });
+    }
+
+    let estadoValido;
+
+    switch (estado) {
+        case 'Pendiente':
+        case 'En Proceso':
+        case 'Resuelta':
+        case 'Cancelada':
+            estadoValido = true;
+            break;
+        default:
+            estadoValido = false;
+    }
+
+    if (!estadoValido) {
+        return res.status(400).json({ mensaje: 'El estado ingresado no es válido' });
+    }
+
+    incidencia.estado = estado;
+
+    res.json(incidencia);
+}
+// 6. Eliminar incidencia
+function eliminarIncidencia(req, res) {
+    const id = Number(req.params.id);
+    const indice = incidencias.findIndex((incidencia) => incidencia.id === id);
+
+    if (indice === -1) {
+        return res.status(404).json({ mensaje: 'Incidencia no encontrada' });
+    }
+
+    incidencias.splice(indice, 1);
+
+    res.json({ mensaje: 'Incidencia eliminada correctamente' });
+}
